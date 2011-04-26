@@ -1,0 +1,9 @@
+NoMolestar is an Android application that blocks
+calls from salesmen.
+
+The initial objective is to block calls from four-digit
+numbers starting with digit '1', which is the identifier
+for phone companies in Spain.
+
+As application development progresses it might include the
+possibility to configure the numbers to block.
