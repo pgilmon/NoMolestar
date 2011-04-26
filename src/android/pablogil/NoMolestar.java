@@ -22,6 +22,10 @@ package android.pablogil;
 import android.app.Activity;
 import android.os.Bundle;
 
+/**
+ * @author Pablo Gil
+ *
+ */
 public class NoMolestar extends Activity {
     /** Called when the activity is first created. */
     @Override
