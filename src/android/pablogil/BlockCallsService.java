@@ -68,30 +68,37 @@ import android.view.KeyEvent;
 
 public class BlockCallsService extends IntentService {
 
+	private static String TARGET_NUMBER = "101";
+	
 	public BlockCallsService() {
 		super("BlockCallsService");
 	}
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		Context context = getBaseContext();
-
-		// Make sure the phone is still ringing
-		TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-		if (tm.getCallState() != TelephonyManager.CALL_STATE_RINGING) {
-			return;
-		}
-
-		// Answer the phone
-		try {
-			answerPhoneAidl(context);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			Log.d("AutoAnswer","Error trying to answer using telephony service.  Falling back to headset.");
-			answerPhoneHeadsethook(context);
-		}
-		return;
+//		Context context = getBaseContext();
+//		
+//		String incomingNumber = 
+//			(String)intent.getExtras().get(TelephonyManager.EXTRA_INCOMING_NUMBER);
+//
+//		if(incomingNumber.equalsIgnoreCase(TARGET_NUMBER)){
+//			// Make sure the phone is still ringing
+//			TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+//			if (tm.getCallState() != TelephonyManager.CALL_STATE_RINGING) {
+//				return;
+//			}
+//	
+//			// Answer the phone
+//			try {
+//				answerPhoneAidl(context);
+//			}
+//			catch (Exception e) {
+//				e.printStackTrace();
+//				Log.d("AutoAnswer","Error trying to answer using telephony service.  Falling back to headset.");
+//				answerPhoneHeadsethook(context);
+//			}
+//		}
+//		return;
 	}
 
 	private void answerPhoneHeadsethook(Context context) {
