@@ -69,6 +69,8 @@ import android.view.KeyEvent;
 
 public class BlockCallsService extends IntentService {
 
+	private static long WAIT_OFF_HOOK_SLEEP_TIME = 100;
+	private static long WAIT_OFF_HOOK_TIMEOUT = 5000;
 	
 	public BlockCallsService() {
 		super("BlockCallsService");
@@ -85,6 +87,7 @@ public class BlockCallsService extends IntentService {
 		ITelephony telephonyService;
 		telephonyService = (ITelephony)m.invoke(tm);
 		
+		@SuppressWarnings("rawtypes")
 		Class telephonyServiceClass = telephonyService.getClass();
 		
 		Method[] methods = telephonyServiceClass.getMethods();
@@ -124,11 +127,11 @@ public class BlockCallsService extends IntentService {
 			
 			//Now, end call
 			try{
+				waitOffHook(tm);
 				endCallAidl(telephonyService);
 			}
 			catch(Throwable e){
 				Log.d("NoMolestar", "Could not hang up phone. Fallback", e);
-				answerPhoneHeadsethook(context);
 			}
 			
 		}
@@ -158,6 +161,23 @@ public class BlockCallsService extends IntentService {
 		// Silence the ringer and answer the call!
 		telephonyService.silenceRinger();
 		telephonyService.answerRingingCall();
+	}
+	
+	protected void waitOffHook(TelephonyManager telephonyManager){
+		long startTime = System.currentTimeMillis();
+		long offset = 0;
+		
+		while(telephonyManager.getCallState() != TelephonyManager.CALL_STATE_OFFHOOK
+				&& offset < WAIT_OFF_HOOK_TIMEOUT){
+			try {
+				Thread.sleep(WAIT_OFF_HOOK_SLEEP_TIME);
+			} catch (InterruptedException e) {
+				Log.w("NoMolestar", 
+						"Unexpectedly interrupted while waiting for offhook", 
+						e);
+			}
+			offset = System.currentTimeMillis() - startTime;
+		}
 	}
 	
 	private void endCallAidl(ITelephony telephonyService) throws Exception {

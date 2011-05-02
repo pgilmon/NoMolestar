@@ -61,7 +61,7 @@ import android.telephony.TelephonyManager;
 
 public class BlockCallsReceiver extends BroadcastReceiver {
 	
-	private static String TARGET_NUMBER = "101";
+	private static int TARGET_NUMBER_DIGITS = 4;
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -71,7 +71,7 @@ public class BlockCallsReceiver extends BroadcastReceiver {
 		String phone_state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
 		String number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
 
-		if (phone_state.equals(TelephonyManager.EXTRA_STATE_RINGING) && number.equals(TARGET_NUMBER)) {
+		if (phone_state.equals(TelephonyManager.EXTRA_STATE_RINGING) && number.length() == TARGET_NUMBER_DIGITS) {
 			
 
 			// Call a service, since this could take a few seconds
