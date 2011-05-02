@@ -57,6 +57,7 @@ package android.pablogil;
 import android.app.IntentService;
 import android.content.Intent;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import com.android.internal.telephony.ITelephony;
@@ -68,37 +69,75 @@ import android.view.KeyEvent;
 
 public class BlockCallsService extends IntentService {
 
-	private static String TARGET_NUMBER = "101";
 	
 	public BlockCallsService() {
 		super("BlockCallsService");
 	}
 
+	protected ITelephony getTelephony() throws ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, SecurityException, NoSuchMethodException{
+	
+		// Set up communication with the telephony service (thanks to Tedd's Droid Tools!)
+		TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+		@SuppressWarnings("rawtypes")
+		Class c = Class.forName(tm.getClass().getName());
+		Method m = c.getDeclaredMethod("getITelephony");
+		m.setAccessible(true);
+		ITelephony telephonyService;
+		telephonyService = (ITelephony)m.invoke(tm);
+		
+		Class telephonyServiceClass = telephonyService.getClass();
+		
+		Method[] methods = telephonyServiceClass.getMethods();
+		
+		String methodsString = "";
+		
+		for (Method method : methods){
+			methodsString = methodsString + method + "\n";
+		}
+		Log.d("NoMolestar", "Methods:\n" + methodsString);
+		
+		return telephonyService;
+	}
+	
 	@Override
 	protected void onHandleIntent(Intent intent) {
-//		Context context = getBaseContext();
-//		
-//		String incomingNumber = 
-//			(String)intent.getExtras().get(TelephonyManager.EXTRA_INCOMING_NUMBER);
-//
-//		if(incomingNumber.equalsIgnoreCase(TARGET_NUMBER)){
-//			// Make sure the phone is still ringing
-//			TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-//			if (tm.getCallState() != TelephonyManager.CALL_STATE_RINGING) {
-//				return;
-//			}
-//	
-//			// Answer the phone
-//			try {
-//				answerPhoneAidl(context);
-//			}
-//			catch (Exception e) {
-//				e.printStackTrace();
-//				Log.d("AutoAnswer","Error trying to answer using telephony service.  Falling back to headset.");
-//				answerPhoneHeadsethook(context);
-//			}
-//		}
-//		return;
+		Context context = getBaseContext();
+
+		// Make sure the phone is still ringing
+		TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+		if (tm.getCallState() != TelephonyManager.CALL_STATE_RINGING) {
+			return;
+		}
+
+		try{
+			ITelephony telephonyService = getTelephony();
+			// Answer the phone
+			
+			try {
+				answerPhoneAidl(telephonyService);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				Log.d("NoMolestar","Error trying to answer using telephony service.  Falling back to headset.");
+				answerPhoneHeadsethook(context);
+			}
+			
+			//Now, end call
+			try{
+				endCallAidl(telephonyService);
+			}
+			catch(Throwable e){
+				Log.d("NoMolestar", "Could not hang up phone. Fallback", e);
+				answerPhoneHeadsethook(context);
+			}
+			
+		}
+		catch (Exception e){
+			Log.e("NoMolestar", "Could not get ITelephony", e);
+		}
+		
+		
+		return;
 	}
 
 	private void answerPhoneHeadsethook(Context context) {
@@ -113,18 +152,18 @@ public class BlockCallsService extends IntentService {
 		context.sendOrderedBroadcast(buttonUp, "android.permission.CALL_PRIVILEGED");
 	}
 
-	@SuppressWarnings("rawtypes")
-	private void answerPhoneAidl(Context context) throws Exception {
-		// Set up communication with the telephony service (thanks to Tedd's Droid Tools!)
-		TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-		Class c = Class.forName(tm.getClass().getName());
-		Method m = c.getDeclaredMethod("getITelephony");
-		m.setAccessible(true);
-		ITelephony telephonyService;
-		telephonyService = (ITelephony)m.invoke(tm);
+	private void answerPhoneAidl(ITelephony telephonyService) throws Exception {
+		
 
 		// Silence the ringer and answer the call!
 		telephonyService.silenceRinger();
 		telephonyService.answerRingingCall();
+	}
+	
+	private void endCallAidl(ITelephony telephonyService) throws Exception {
+		
+
+		// Silence the ringer and answer the call!
+		telephonyService.endCall();
 	}
 }

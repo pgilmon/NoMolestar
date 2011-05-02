@@ -52,49 +52,31 @@
  *   limitations under the License.
  */
 
-package com.android.internal.telephony;
+package android.pablogil;
 
-/**
- * Interface used to interact with the phone.  Mostly this is used by the
- * TelephonyManager class.  A few places are still using this directly.
- * Please clean them up if possible and use TelephonyManager insteadl.
- *
- */
-interface ITelephony {
-    /**
-     * Answer the currently-ringing call.
-     *
-     * If there's already a current active call, that call will be
-     * automatically put on hold.  If both lines are currently in use, the
-     * current active call will be ended.
-     *
-     * TODO: provide a flag to let the caller specify what policy to use
-     * if both lines are in use.  (The current behavior is hardwired to
-     * "answer incoming, end ongoing", which is how the CALL button
-     * is specced to behave.)
-     *
-     * TODO: this should be a oneway call (especially since it's called
-     * directly from the key queue thread).
-     */
-    void answerRingingCall();
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.telephony.TelephonyManager;
 
-    /**
-     * Silence the ringer if an incoming call is currently ringing.
-     * (If vibrating, stop the vibrator also.)
-     *
-     * It's safe to call this if the ringer has already been silenced, or
-     * even if there's no incoming call.  (If so, this method will do nothing.)
-     *
-     * TODO: this should be a oneway call too (see above).
-     *       (Actually *all* the methods here that return void can
-     *       probably be oneway.)
-     */
-    void silenceRinger();
-    
-    /**
-     * End current call.
-     *
-     */
-    boolean endCall();
+public class BlockCallsReceiver extends BroadcastReceiver {
+	
+	private static String TARGET_NUMBER = "101";
+	
+	@Override
+	public void onReceive(Context context, Intent intent) {
+
+
+		// Check phone state
+		String phone_state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
+		String number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
+
+		if (phone_state.equals(TelephonyManager.EXTRA_STATE_RINGING) && number.equals(TARGET_NUMBER)) {
+			
+
+			// Call a service, since this could take a few seconds
+			context.startService(new Intent(context, BlockCallsService.class));
+		}		
+	}
+
 }
-
