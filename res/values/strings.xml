@@ -2,4 +2,5 @@
 <resources>
     <string name="hello">Hello World, NoMolestar!</string>
     <string name="app_name">NoMolestar</string>
+    <string name="enable_block">Block spam calls</string>
 </resources>

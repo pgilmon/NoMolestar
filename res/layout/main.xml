@@ -4,5 +4,5 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CheckBox" android:id="@+id/enabledCB"></CheckBox>
+    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/enabledCB" android:text="@string/enable_block"></CheckBox>
 </LinearLayout>
