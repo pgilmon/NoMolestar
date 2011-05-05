@@ -57,6 +57,8 @@ package android.pablogil;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
 public class BlockCallsReceiver extends BroadcastReceiver {
@@ -65,13 +67,17 @@ public class BlockCallsReceiver extends BroadcastReceiver {
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
-
+		
+		SharedPreferences preferences = 
+			PreferenceManager.getDefaultSharedPreferences(context);
 
 		// Check phone state
 		String phone_state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
 		String number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
 
-		if (phone_state.equals(TelephonyManager.EXTRA_STATE_RINGING) && number.length() == TARGET_NUMBER_DIGITS) {
+		if (phone_state.equals(TelephonyManager.EXTRA_STATE_RINGING) && 
+				number.length() == TARGET_NUMBER_DIGITS &&
+				preferences.getBoolean(Constants.ENABLED, false)) {
 			
 
 			// Call a service, since this could take a few seconds

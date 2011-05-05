@@ -20,7 +20,14 @@
 package android.pablogil;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 /**
  * @author Pablo Gil
@@ -31,6 +38,20 @@ public class NoMolestar extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Context context = getBaseContext();
+        
+        final SharedPreferences preferences = 
+        	PreferenceManager.getDefaultSharedPreferences(context);
         setContentView(R.layout.main);
+        
+        CheckBox enabledCB = (CheckBox)findViewById(R.id.enabledCB);
+        enabledCB.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				Editor prefEditor = preferences.edit();
+				prefEditor.putBoolean(Constants.ENABLED, isChecked);
+				prefEditor.commit();
+			}
+		});
     }
 }

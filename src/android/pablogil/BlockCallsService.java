@@ -54,18 +54,17 @@
 
 package android.pablogil;
 
-import android.app.IntentService;
-import android.content.Intent;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import com.android.internal.telephony.ITelephony;
-
+import android.app.IntentService;
 import android.content.Context;
+import android.content.Intent;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
+
+import com.android.internal.telephony.ITelephony;
 
 public class BlockCallsService extends IntentService {
 
