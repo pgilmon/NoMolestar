@@ -2,4 +2,5 @@
 <resources>
     <string name="enable_block">Bloquear llamadas publicitarias</string>
     <string name="no_molestar_settings">NoMolestar - Configuración</string>
+    <string name="note_about_usage">El bloqueo de llamadas publicitarias bloquea TODAS las llamadas provenientes de números de cuatro cifras (por ejemplo: 1004, 1441, etc), que son los que habitualmente utilizan las operadoras de telefonía para ofrecer sus productos.</string>
 </resources>

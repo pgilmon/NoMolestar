@@ -4,4 +4,5 @@
     <string name="app_name">NoMolestar</string>
     <string name="enable_block">Block spam calls</string>
     <string name="no_molestar_settings">NoMolestar settings</string>
+    <string name="note_about_usage">Please note that any call from a four-digit number will be considered a spam call. This is most suitable for Spain, where spammers usually call from such numbers. It might not be the case in your country.</string>
 </resources>

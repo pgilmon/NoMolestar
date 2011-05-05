@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@string/no_molestar_settings" android:id="@+id/textView1" android:layout_gravity="center_horizontal" android:textStyle="bold" android:textSize="22sp"></TextView>
-    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/enabledCB" android:text="@string/enable_block"></CheckBox>
-</LinearLayout>
+    <LinearLayout android:layout_height="wrap_content" android:layout_below="@+id/enabledCB" android:id="@+id/linearLayout1" android:layout_alignLeft="@+id/enabledCB" android:layout_alignRight="@+id/enabledCB" android:orientation="vertical" android:layout_width="fill_parent">
+        <TextView android:layout_width="wrap_content" android:textStyle="bold" android:text="@string/no_molestar_settings" android:layout_height="wrap_content" android:textSize="22sp" android:id="@+id/textView1" android:layout_gravity="center_horizontal"></TextView>
+        <CheckBox android:id="@+id/enabledCB" android:layout_width="wrap_content" android:text="@string/enable_block" android:layout_height="wrap_content"></CheckBox>
+    </LinearLayout>
+    <TextView android:layout_alignParentBottom="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView2" android:text="@string/note_about_usage"></TextView>
+</RelativeLayout>
