@@ -53,5 +53,6 @@ public class NoMolestar extends Activity {
 				prefEditor.commit();
 			}
 		});
+        enabledCB.setChecked(preferences.getBoolean(Constants.ENABLED, false));
     }
 }
