@@ -74,15 +74,18 @@ public class BlockCallsReceiver extends BroadcastReceiver {
 		// Check phone state
 		String phone_state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
 		String number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
-
-		if (phone_state.equals(TelephonyManager.EXTRA_STATE_RINGING) && 
-				number.length() == TARGET_NUMBER_DIGITS &&
-				preferences.getBoolean(Constants.ENABLED, false)) {
-			
-
-			// Call a service, since this could take a few seconds
-			context.startService(new Intent(context, BlockCallsService.class));
-		}		
+		
+		//To prevent problems with anonymous calls
+		if (number != null){
+			if (phone_state.equals(TelephonyManager.EXTRA_STATE_RINGING) && 
+					number.length() == TARGET_NUMBER_DIGITS &&
+					preferences.getBoolean(Constants.ENABLED, false)) {
+				
+	
+				// Call a service, since this could take a few seconds
+				context.startService(new Intent(context, BlockCallsService.class));
+			}	
+		}
 	}
 
 }
