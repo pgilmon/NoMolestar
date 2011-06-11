@@ -22,6 +22,8 @@
  */
 package android.pablogil;
 
+import pablogil.android.R;
+
 /**
  * @author Pablo Gil
  *

@@ -56,6 +56,7 @@ package android.pablogil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import pablogil.android.R;
 
 import android.app.IntentService;
 import android.content.Context;

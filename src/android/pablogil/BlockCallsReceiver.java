@@ -60,6 +60,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
+import pablogil.android.R;
 
 public class BlockCallsReceiver extends BroadcastReceiver {
 	

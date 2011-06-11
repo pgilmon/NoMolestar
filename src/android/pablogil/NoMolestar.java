@@ -28,6 +28,7 @@ import android.preference.PreferenceManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import pablogil.android.R;
 
 /**
  * @author Pablo Gil
