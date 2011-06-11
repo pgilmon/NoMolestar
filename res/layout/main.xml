@@ -3,9 +3,19 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <LinearLayout android:layout_height="wrap_content" android:layout_below="@+id/enabledCB" android:id="@+id/linearLayout1" android:layout_alignLeft="@+id/enabledCB" android:layout_alignRight="@+id/enabledCB" android:orientation="vertical" android:layout_width="fill_parent">
-        <TextView android:layout_width="wrap_content" android:textStyle="bold" android:text="@string/no_molestar_settings" android:layout_height="wrap_content" android:textSize="22sp" android:id="@+id/textView1" android:layout_gravity="center_horizontal"></TextView>
-        <CheckBox android:id="@+id/enabledCB" android:layout_width="wrap_content" android:text="@string/enable_block" android:layout_height="wrap_content"></CheckBox>
+    <LinearLayout android:layout_height="fill_parent" android:layout_above="@+id/textView2" android:orientation="vertical" android:layout_width="fill_parent">
+        <TextView android:layout_width="wrap_content" android:textStyle="bold" android:text="@string/no_molestar_settings" android:layout_height="wrap_content" android:id="@+id/textView1" android:layout_gravity="center_horizontal" android:textSize="22sp"></TextView>
+        <RelativeLayout android:id="@+id/relativeLayout1" android:layout_height="fill_parent" android:layout_width="fill_parent">
+        	
+        	<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_centerInParent="true" android:layout_height="wrap_content" android:id="@+id/linearLayout1">
+	        	<CheckBox android:id="@+id/enabledCB" android:layout_width="wrap_content" android:text="@string/enable_block" android:layout_height="wrap_content" android:layout_centerInParent="true" android:textSize="18sp"></CheckBox>
+	        	<LinearLayout android:layout_marginTop="20px" android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout2">
+	        		<TextView  android:layout_width="wrap_content" android:layout_below="@+id/enabledCB" android:layout_height="wrap_content" android:id="@+id/textView3" android:text="@string/number_of_blocked_calls" android:textSize="18sp"></TextView>
+	        		<TextView android:layout_marginLeft="5px" android:text="12" android:id="@+id/textView_noOfBlockedCalls" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="18sp"></TextView>
+        		</LinearLayout>
+	        </LinearLayout>
+        
+        </RelativeLayout>
     </LinearLayout>
     <TextView android:layout_alignParentBottom="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView2" android:text="@string/note_about_usage"></TextView>
 </RelativeLayout>

@@ -61,9 +61,14 @@ import pablogil.android.R;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 
 import com.android.internal.telephony.ITelephony;
 
@@ -121,7 +126,7 @@ public class BlockCallsService extends IntentService {
 			}
 			catch (Exception e) {
 				e.printStackTrace();
-				Log.d("NoMolestar","Error trying to answer using telephony service.  Falling back to headset.");
+				Log.e("NoMolestar","Error trying to answer using telephony service.  Falling back to headset.");
 				answerPhoneHeadsethook(context);
 			}
 			
@@ -129,9 +134,10 @@ public class BlockCallsService extends IntentService {
 			try{
 				waitOffHook(tm);
 				endCallAidl(telephonyService);
+				logBlockedCall(context);
 			}
 			catch(Throwable e){
-				Log.d("NoMolestar", "Could not hang up phone. Fallback", e);
+				Log.e("NoMolestar", "Could not hang up phone. Fallback", e);
 			}
 			
 		}
@@ -186,4 +192,16 @@ public class BlockCallsService extends IntentService {
 		// Silence the ringer and answer the call!
 		telephonyService.endCall();
 	}
+	
+	private void logBlockedCall(Context context){
+		SharedPreferences preferences = 
+			PreferenceManager.getDefaultSharedPreferences(context);
+		int currentBlockedCalls = 
+			preferences.getInt(Constants.NO_OF_BLOCKED_CALLS, 0);
+		Editor prefEditor = preferences.edit();
+		int newValue = currentBlockedCalls + 1;
+		prefEditor.putInt(Constants.NO_OF_BLOCKED_CALLS, newValue);
+		prefEditor.commit();
+	}
+	
 }

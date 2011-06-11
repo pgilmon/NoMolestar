@@ -2,7 +2,8 @@
 <resources>
     <string name="hello">Hello World, NoMolestar!</string>
     <string name="app_name">NoMolestar</string>
-    <string name="enable_block">Block spam calls</string>
+    <string name="enable_block">Block</string>
     <string name="no_molestar_settings">NoMolestar settings</string>
     <string name="note_about_usage">Please note that any call from a four-digit number will be considered a spam call. This is most suitable for Spain, where most advertisement calls are placed from such numbers. It might not be the case in your country.</string>
+    <string name="number_of_blocked_calls">Blocked calls:</string>
 </resources>

@@ -30,4 +30,5 @@ import pablogil.android.R;
  */
 public class Constants {
 	public static String ENABLED = "enabled";
+	public static String NO_OF_BLOCKED_CALLS = "numberOfBlockedCalls";
 }
